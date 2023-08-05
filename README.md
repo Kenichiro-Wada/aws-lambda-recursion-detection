@@ -21,8 +21,10 @@ The configurations that can be verified are as follows
 - Install what you need. *Omitted.
 - Clone this repository and move it to the project repository.
 
-`$ git clone https://github.com/Kenichiro-Wada/aws-lambda-recursion-detection`
-`$ cd aws-lambda-recursion-detection/` 
+```
+$ git clone https://github.com/Kenichiro-Wada/aws-lambda-recursion-detection
+$ cd aws-lambda-recursion-detection/
+```
 
 - When a message is received in DLQ, Lambda will send an Email via Amazon SNS (which does not loop), so set the email address.
 

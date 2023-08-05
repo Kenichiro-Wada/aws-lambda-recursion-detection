@@ -21,8 +21,10 @@
 - 必要なもののインストールします。※割愛
 - このレポジトリーをクローンして、プロジェクトレポジトリに移動します。
 
-`$ git clone `
-`$ cd aws-lambda-recursion-detection/`
+```
+$ git clone https://github.com/Kenichiro-Wada/aws-lambda-recursion-detection
+$ cd aws-lambda-recursion-detection/
+```
 
 - 必要なモジュールをインストールします。
 
