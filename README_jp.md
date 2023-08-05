@@ -31,20 +31,23 @@ $ cd aws-lambda-recursion-detection/
 `$ npm i`
 
 - DLQにメッセージが入った際に、LambdaからAmazon SNS(これはループしない)経由で、Emailを飛ばすので、そのメールアドレスを設定します。
-
 ```
     // Sending Email(Your Email)
     const emailAddress = 'hogehoge@example.com' //<- Change Your Email Address.
 ```
+
 - デプロイして、実行後に出力されるLambda関数名をメモします。
 
 `$ cdk deploy`
 
+Outputsに以下のように表示されます。
+
 ```
-AwsLambdaRecursionDetectionStack.AmazonSQSWithDLQLoopFunction : Amazon SQS With Dead Letter Queueでのループ用
-AwsLambdaRecursionDetectionStack.AmazonSQSWithoutDLQLoopFunction : Amazon SQS Without Dead Letter Queueでのループ
-AwsLambdaRecursionDetectionStack.AmazonSNSLoopFunction : Amazon SNSでのループ
-AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction : Amazon S3でのループ
+Outputs:
+AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction = AwsLambdaRecursion~ <- Amazon S3でのループ用
+AwsLambdaRecursionDetectionStack.AmazonSNSLoopFunction = AwsLambdaRecursion~ <- Amazon SNSでのループ用
+AwsLambdaRecursionDetectionStack.AmazonSQSWithDLQLoopFunction = AwsLambdaRecursion~ <- Amazon SQS With Dead Letter Queueでのループ用
+AwsLambdaRecursionDetectionStack.AmazonSQSWithoutDLQLoopFunction = AwsLambdaRecursion~ <- Amazon SQS Without Dead Letter Queueでのループ用
 ```
 
 - 設定したEmailに `AWS Notification - Subscription Confirmation` という件名でメールが届いているので、メール内のの `Confirm subscription` をクリックします。
@@ -65,7 +68,7 @@ $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSQSW
 - Amazon SQS Without Dead Letter Queueでのループ
 
 ```
-$ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSQSWithoutDLQLoopFunction} \
+$ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSQSWithoutDLQLoopFunctionで出力された値} \
  --payload file://test/sqs-test.json \
  --cli-binary-format raw-in-base64-out \
  response.json
@@ -74,7 +77,7 @@ $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSQSW
 - Amazon SNSでのループ
 
 ```
-$ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSNSLoopFunction} \
+$ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSNSLoopFunctionで出力された値} \
  --payload file://test/sns-test.json \
  --cli-binary-format raw-in-base64-out \
  response.json
@@ -92,7 +95,7 @@ Clouwatch Logsを確認すると、実行のログが16回出ていると思い�
 ** 実行したらすぐに次のコマンドを実行して、強制的に停止させること!!!**
 
 ```
-$ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction} \
+$ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonS3LoopFunctionで出力された値} \
  response.json
 ```
 

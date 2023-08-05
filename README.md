@@ -5,7 +5,7 @@ The configurations that can be verified are as follows
 - Loop with Amazon SQS With Dead Letter Queue
 - Loop with Amazon SQS Without Dead Letter Queue
 - Loop with Amazon SNS
-- Looping with Amazon S3 (this is a bonus)
+- Loop with Amazon S3 (this is a bonus)
     - **Caution ！！！！ Note ！！！！ This configuration can be verified, but is outside the scope of this detection and shutdown, so it is necessary to manually stop the execution of the Lambda function. Be sure to monitor metrics and logs during execution and stop it immediately. We are not responsible for any costs incurred if you forget to stop it!**
 
 ## Required
@@ -28,23 +28,26 @@ $ cd aws-lambda-recursion-detection/
 
 - When a message is received in DLQ, Lambda will send an Email via Amazon SNS (which does not loop), so set the email address.
 
-- Install the required modules.
-
-`$ npm i`
-
 ```
     // Sending Email(Your Email)
     const emailAddress = 'hogehoge@example.com' //<- Change Your Email Address.
 ```
+
+- Install the required modules.
+
+`$ npm i`
+
 - Deploy and note the name of the Lambda function that will be output after execution.
 
 `$ cdk deploy`
 
+The following will appear in Outputs
 ```
-AwsLambdaRecursionDetectionStack.AmazonSQSWithDLQLoopFunction : Amazon SQS With Dead Letter Queueでのループ用
-AwsLambdaRecursionDetectionStack.AmazonSQSWithoutDLQLoopFunction : Amazon SQS Without Dead Letter Queueでのループ
-AwsLambdaRecursionDetectionStack.AmazonSNSLoopFunction : Amazon SNSでのループ
-AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction : Amazon S3でのループ
+Outputs:
+AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction = AwsLambdaRecursion~ <- For Loop with Amazon S3
+AwsLambdaRecursionDetectionStack.AmazonSNSLoopFunction = AwsLambdaRecursion~ <- For Loop with Amazon SNS
+AwsLambdaRecursionDetectionStack.AmazonSQSWithDLQLoopFunction = AwsLambdaRecursion~ <- For Loop with Amazon SQS With Dead Letter Queue
+AwsLambdaRecursionDetectionStack.AmazonSQSWithoutDLQLoopFunction = AwsLambdaRecursion~ <- For Loop with Amazon SQS Without Dead Letter Queue
 ```
 
 - You will receive an email with the subject `AWS Notification - Subscription Confirmation` to the email you set up.
@@ -55,7 +58,7 @@ Be sure to look at Cloudwatch Logs and metrics when executing!
 - Loop with Amazon SQS With Dead Letter Queue
 
 ```
-$ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSQSWithDLQLoopFunctionで出力された値} \
+$ aws lambda invoke --function-name {Value output to AwsLambdaRecursionDetectionStack.AmazonSQSWithDLQLoopFunction} \
  --payload file://test/sqs-test.json \
  --cli-binary-format raw-in-base64-out \
  response.json
@@ -64,7 +67,7 @@ $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSQSW
 - Loop with Amazon SQS Without Dead Letter Queue
 
 ```
-$ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSQSWithoutDLQLoopFunction} \
+$ aws lambda invoke --function-name {Value output to AwsLambdaRecursionDetectionStack.AmazonSQSWithoutDLQLoopFunction} \
  --payload file://test/sqs-test.json \
  --cli-binary-format raw-in-base64-out \
  response.json
@@ -73,7 +76,7 @@ $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSQSW
 - Loop with Amazon SNS
 
 ```
-$ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSNSLoopFunction} \
+$ aws lambda invoke --function-name {Value output to AwsLambdaRecursionDetectionStack.AmazonSNSLoopFunction} \
  --payload file://test/sns-test.json \
  --cli-binary-format raw-in-base64-out \
  response.json
@@ -91,7 +94,7 @@ For example, for a loop in SQS, if you do a search on `Message has been sent to 
 **As soon as you run it, run the following command to force it to stop!!!!**
 
 ```
-$ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction} \
+$ aws lambda invoke --function-name {Value output to AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction} \
  response.json
 ```
 
