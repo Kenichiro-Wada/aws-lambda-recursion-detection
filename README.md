@@ -29,6 +29,8 @@ $ cd aws-lambda-recursion-detection/
 
 - When a message is received in DLQ, Lambda will send an Email via Amazon SNS (which does not loop), so set the email address.
 
+`lib/aws-lambda-recursion-detection-stack.ts`
+
 ```
     // Sending Email(Your Email)
     const emailAddress = 'hogehoge@example.com' //<- Change Your Email Address.

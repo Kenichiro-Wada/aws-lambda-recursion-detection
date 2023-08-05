@@ -31,6 +31,9 @@ $ cd aws-lambda-recursion-detection/
 `$ npm i`
 
 - DLQにメッセージが入った際に、LambdaからAmazon SNS(これはループしない)経由で、Emailを飛ばすので、そのメールアドレスを設定します。
+
+`lib/aws-lambda-recursion-detection-stack.ts`
+
 ```
     // Sending Email(Your Email)
     const emailAddress = 'hogehoge@example.com' //<- Change Your Email Address.
