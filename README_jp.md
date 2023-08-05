@@ -95,9 +95,9 @@ Clouwatch Logsを確認すると、実行のログが16回出ていると思い�
 
 - Amazon S3でのループ
 
-** (注意!)このLambdaを実行すると、1分間に20回程度実行されます。すぐにスロットリングさせて止めること!!!**
+**(注意!)このLambdaを実行すると、1分間に20回程度実行されます。すぐにスロットリングさせて止めること!!!**
 
-** 実行したらすぐに次のコマンドを実行して、強制的に停止させること!!!**
+**実行したらすぐに次のコマンドを実行して、強制的に停止させること!!!**
 
 ```
 $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonS3LoopFunctionで出力された値} \
