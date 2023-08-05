@@ -6,7 +6,7 @@ The configurations that can be verified are as follows
 - Loop with Amazon SQS Without Dead Letter Queue
 - Loop with Amazon SNS
 - Loop with Amazon S3 (this is a bonus)
-    - **Caution ！！！！ Note ！！！！ This configuration can be verified, but is outside the scope of this detection and shutdown, so it is necessary to manually stop the execution of the Lambda function. Be sure to monitor metrics and logs during execution and stop it immediately. We are not responsible for any costs incurred if you forget to stop it!**
+    - **Caution !!!! Note !!!! This configuration can be verified, but is outside the scope of this detection and shutdown, so it is necessary to manually stop the execution of the Lambda function. Be sure to monitor metrics and logs during execution and stop it immediately. We are not responsible for any costs incurred if you forget to stop it!**
 
 ## Required
 - AWS Account
@@ -17,7 +17,8 @@ The configurations that can be verified are as follows
 - Typescript (>5.1.6)
 
 ## Command
-### 構築
+### Build-up
+
 - Install what you need. *Omitted.
 - Clone this repository and move it to the project repository.
 
@@ -52,9 +53,12 @@ AwsLambdaRecursionDetectionStack.AmazonSQSWithoutDLQLoopFunction = AwsLambdaRecu
 
 - You will receive an email with the subject `AWS Notification - Subscription Confirmation` to the email you set up.
 
-### 実行
+### Execute
+
 Execute the following command.
+
 Be sure to look at Cloudwatch Logs and metrics when executing!
+
 - Loop with Amazon SQS With Dead Letter Queue
 
 ```
@@ -82,15 +86,19 @@ $ aws lambda invoke --function-name {Value output to AwsLambdaRecursionDetection
  response.json
 ```
 
-#### 確認
+#### Confirmation
 The metrics for the relevant Lambda function show that it stopped 16 times.
+
 If you check Clouwatch Logs, you will see that the execution is logged 16 times.
+
 For example, for a loop in SQS, if you do a search on `Message has been sent to the queue`, you should get 16 records.
 
-**Please note the following when executing: ！！！！！ (Execution is at your own risk)**
+**Please note the following when executing: !!!! (Execution is at your own risk)**
 
 - Looping with Amazon S3
+
 **(Caution!) When this Lambda is executed, it will run about 20 times per minute. Throttling it to stop it immediately!!!!**
+
 **As soon as you run it, run the following command to force it to stop!!!!**
 
 ```
@@ -99,6 +107,7 @@ $ aws lambda invoke --function-name {Value output to AwsLambdaRecursionDetection
 ```
 
 - Stop the execution of the Lambda function
+
 **forgetting to stop may result in charges !!!!**
 
 ```
@@ -120,4 +129,5 @@ $ aws lambda put-function-concurrency \
 `$ cdk destroy`
 
 ## Disclaimers
+
 **We are not responsible for any costs incurred if you forget to stop the loop in Amazon S3 when you run it.**

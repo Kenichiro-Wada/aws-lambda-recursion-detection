@@ -6,7 +6,7 @@
 - Amazon SQS Without Dead Letter Queueでのループ
 - Amazon SNSでのループ
 - Amazon S3でのループ(これはおまけ)
-    - **注意！！！！注意！！！！この構成は検証できますが、今回の検知および停止の対象外なので、手動でLambda関数の実行を停止することが必要です。実行の際には、メトリクスやログを必ず監視し、すぐに止めるようにしてください。止め忘れた場合に発生する費用については、一切の責任を負いません**
+    - **注意!!!!注意!!!!この構成は検証できますが、今回の検知および停止の対象外なので、手動でLambda関数の実行を停止することが必要です。実行の際には、メトリクスやログを必ず監視し、すぐに止めるようにしてください。止め忘れた場合に発生する費用については、一切の責任を負いません**
 
 ## 必要なもの
 - AWS Account
@@ -50,11 +50,11 @@ AwsLambdaRecursionDetectionStack.AmazonSQSWithDLQLoopFunction = AwsLambdaRecursi
 AwsLambdaRecursionDetectionStack.AmazonSQSWithoutDLQLoopFunction = AwsLambdaRecursion~ <- Amazon SQS Without Dead Letter Queueでのループ用
 ```
 
-- 設定したEmailに `AWS Notification - Subscription Confirmation` という件名でメールが届いているので、メール内のの `Confirm subscription` をクリックします。
+- 設定したEmailに `AWS Notification - Subscription Confirmation` という件名でメールが届いているので、メール内の `Confirm subscription` をクリックします。
 
 ### 実行
 以下のコマンドを実行します。
-実行の際には、Cloudwatch Logsやメトリクスを見るように！
+実行の際には、Cloudwatch Logsやメトリクスを見るように!
 
 - Amazon SQS With Dead Letter Queueでのループ
 
@@ -84,14 +84,19 @@ $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSNSL
 ```
 
 #### 確認
+
 該当Lambda関数のメトリクスを見ると、16回で停止していることがわかります。
+
 Clouwatch Logsを確認すると、実行のログが16回出ていると思います。
+
 例えば SQSでのループの場合、`Message has been sent to the queue` で検索をかけると、16つのレコードが出てくるはずです。
 
 **以下実行時は注意！！！！！(実行は自己責任です)**
 
 - Amazon S3でのループ
+
 ** (注意!)このLambdaを実行すると、1分間に20回程度実行されます。すぐにスロットリングさせて止めること!!!**
+
 ** 実行したらすぐに次のコマンドを実行して、強制的に停止させること!!!**
 
 ```
@@ -100,6 +105,7 @@ $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonS3Lo
 ```
 
 - Lambda関数の実行を止める
+
 **止めるのを忘れると課金が発生する可能性があります!!!!**
 
 ```
