@@ -20,19 +20,24 @@
 ### 構築
 - 必要なもののインストールします。※割愛
 - このレポジトリーをクローンして、プロジェクトレポジトリに移動します。
+
 `$ git clone `
 `$ cd aws-lambda-recursion-detection/`
 
 - 必要なモジュールをインストールします。
+
 `$ npm i`
 
 - DLQにメッセージが入った際に、LambdaからAmazon SNS(これはループしない)経由で、Emailを飛ばすので、そのメールアドレスを設定します。
+
 ```
     // Sending Email(Your Email)
     const emailAddress = 'hogehoge@example.com' //<- Change Your Email Address.
 ```
 - デプロイして、実行後に出力されるLambda関数名をメモします。
+
 `$ cdk deploy`
+
 ```
 AwsLambdaRecursionDetectionStack.AmazonSQSWithDLQLoopFunction : Amazon SQS With Dead Letter Queueでのループ用
 AwsLambdaRecursionDetectionStack.AmazonSQSWithoutDLQLoopFunction : Amazon SQS Without Dead Letter Queueでのループ
@@ -45,7 +50,9 @@ AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction : Amazon S3でのループ
 ### 実行
 以下のコマンドを実行します。
 実行の際には、Cloudwatch Logsやメトリクスを見るように！
+
 - Amazon SQS With Dead Letter Queueでのループ
+
 ```
 $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSQSWithDLQLoopFunctionで出力された値} \
  --payload file://test/sqs-test.json \
@@ -54,6 +61,7 @@ $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSQSW
 ```
 
 - Amazon SQS Without Dead Letter Queueでのループ
+
 ```
 $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSQSWithoutDLQLoopFunction} \
  --payload file://test/sqs-test.json \
@@ -62,12 +70,14 @@ $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSQSW
 ```
 
 - Amazon SNSでのループ
+
 ```
 $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonSNSLoopFunction} \
  --payload file://test/sns-test.json \
  --cli-binary-format raw-in-base64-out \
  response.json
 ```
+
 #### 確認
 該当Lambda関数のメトリクスを見ると、16回で停止していることがわかります。
 Clouwatch Logsを確認すると、実行のログが16回出ていると思います。
@@ -78,6 +88,7 @@ Clouwatch Logsを確認すると、実行のログが16回出ていると思い�
 - Amazon S3でのループ
 ** (注意!)このLambdaを実行すると、1分間に20回程度実行されます。すぐにスロットリングさせて止めること!!!**
 ** 実行したらすぐに次のコマンドを実行して、強制的に停止させること!!!**
+
 ```
 $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction} \
  response.json
@@ -93,6 +104,7 @@ $ aws lambda put-function-concurrency \
 ```
 
 - 再実行できるようにする
+
 ```
 $ aws lambda put-function-concurrency \
  --function-name {AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction} \
@@ -100,6 +112,7 @@ $ aws lambda put-function-concurrency \
 ```
 
 ### 後片付け
+
 `$ cdk destroy`
 
 ## 免責事項
