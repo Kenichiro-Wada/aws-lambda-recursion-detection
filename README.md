@@ -130,6 +130,8 @@ $ aws lambda put-function-concurrency \
 
 `$ cdk destroy`
 
+*If you have executed the S3 loop pattern, the file remains in the bucket, so delete it before executing the above command.
+
 ## Disclaimers
 
 **We are not responsible for any costs incurred if you forget to stop the loop in Amazon S3 when you run it.**
