@@ -7,15 +7,18 @@ const topicArn = process.env.SNS_TOPIC_ARN;
 // Region
 const region = process.env.REGION;
 
-exports.SnsPublishHandler = async function (event: any, context: any) {
+exports.LambdaRecursionDetectionSnsSqsHandler = async function (
+  event: any,
+  context: any
+) {
   console.log(JSON.stringify(event, null, 2));
   console.log(JSON.stringify(context, null, 2));
   try {
     // Get Event's body(Format SQS)
-    const message: string = event.Records[0].body;
+    const message: string = "Lambda Loop!!!!";
 
     // Publish SNS Topic
-    await publishSnsMessage(`This DLQ Message : ${message}`);
+    await publishSnsMessage(message);
 
     return {
       statusCode: 200,

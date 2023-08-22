@@ -4,18 +4,21 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 // S3 Bucket Name
 const bucketName = process.env.S3_BUCKET_NAME;
 // FileName
-const fileName = 'test.json';
+const fileName = "test.json";
 
 // Region
 const region = process.env.REGION;
 
 // Lambdaハンドラー関数
-exports.LambdaRecursionDetectionS3Handler = async function (event: any, context: any) {
+exports.LambdaRecursionDetectionS3Handler = async function (
+  event: any,
+  context: any
+) {
   console.log(JSON.stringify(event, null, 2));
   console.log(JSON.stringify(context, null, 2));
   try {
     // Save JSON Data
-    const data = { message: "This is a pen." }; 
+    const data = { message: "This is a pen." };
 
     // JSON Data Save S3 Bucket.
     await saveJsonToS3(data);
@@ -31,10 +34,10 @@ exports.LambdaRecursionDetectionS3Handler = async function (event: any, context:
       body: JSON.stringify({ message: "An error has occurred." }),
     };
   }
-}
+};
 
 async function saveJsonToS3(data: any) {
-  const s3Client = new S3Client({region});
+  const s3Client = new S3Client({ region });
   const params = {
     Bucket: bucketName,
     Key: fileName,

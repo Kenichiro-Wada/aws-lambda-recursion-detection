@@ -7,7 +7,7 @@ const queueUrl = process.env.SQS_QUEUE_URL;
 // Region
 const region = process.env.REGION;
 
-exports.LambdaRecursionDetectionSqsHandler = async function (
+exports.LambdaRecursionDetectionSqsLambdaHandler = async function (
   event: any,
   context: any
 ) {
@@ -15,7 +15,7 @@ exports.LambdaRecursionDetectionSqsHandler = async function (
   console.log(JSON.stringify(context, null, 2));
   try {
     // Get Event's body(Format SQS)
-    const message: string = event.Records[0].body;
+    const message: string = "Lambda Loop!!!";
 
     // Send Message SQS Queue
     await sendSqsMessage(message);
