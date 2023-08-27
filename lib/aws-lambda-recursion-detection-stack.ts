@@ -20,7 +20,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
      * ENV
      */
     // Sending Email(Your Email)
-    const emailAddress = "wadaken.ja702a@gmail.com"; //<- Change Your Email Address.
+    const emailAddress = "hogehoge@example.com"; //<- Change Your Email Address.
 
     // REGION
     const scopedAws = new cdk.ScopedAws(this);
