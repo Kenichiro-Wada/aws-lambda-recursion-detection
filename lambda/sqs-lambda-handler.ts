@@ -1,5 +1,6 @@
 // index.js
 import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
+import { setTimeout } from 'node:timers/promises';
 
 // Amazon SQS Queue URL
 const queueUrl = process.env.SQS_QUEUE_URL;
@@ -14,6 +15,9 @@ exports.LambdaRecursionDetectionSqsLambdaHandler = async function (
   console.log(JSON.stringify(event, null, 2));
   console.log(JSON.stringify(context, null, 2));
   try {
+    // 5sec Timeout
+    await setTimeout(5 * 1000);
+
     // Get Event's body(Format SQS)
     const message: string = "Lambda Loop!!!";
 

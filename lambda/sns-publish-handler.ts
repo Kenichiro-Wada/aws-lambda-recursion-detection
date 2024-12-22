@@ -1,5 +1,6 @@
 // index.js
 import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
+import { setTimeout } from 'node:timers/promises';
 
 // Amazon SNS Topic ARN
 const topicArn = process.env.SNS_TOPIC_ARN;
@@ -11,6 +12,10 @@ exports.SnsPublishHandler = async function (event: any, context: any) {
   console.log(JSON.stringify(event, null, 2));
   console.log(JSON.stringify(context, null, 2));
   try {
+
+    // 5sec Timeout
+    await setTimeout(5 * 1000);
+
     // Get Event's body(Format SQS)
     const message: string = event.Records[0].body;
 

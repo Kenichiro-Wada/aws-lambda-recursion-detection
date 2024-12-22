@@ -1,5 +1,6 @@
 // index.mjs
-import { LambdaClient, InvokeCommand } from "@aws-sdk/client-lambda";
+import { LambdaClient, InvokeCommand, InvokeCommandInput } from "@aws-sdk/client-lambda";
+import { setTimeout } from 'node:timers/promises';
 
 // Invoke Lambda Fuction Name
 const invokeFunctionName = process.env.LAMBDA_FUNCTION_NAME;
@@ -14,11 +15,15 @@ exports.LambdaRecursionDetectionLambdaHandler = async function (
   console.log(JSON.stringify(event, null, 2));
   console.log(JSON.stringify(context, null, 2));
   try {
+
+    // 5sec Timeout
+    await setTimeout(5 * 1000);
+
     const lambdaClient = new LambdaClient({ region });
 
-    const invokeParams = {
+    const invokeParams: InvokeCommandInput = {
       FunctionName: invokeFunctionName,
-      InvocationType: "Event",
+      InvocationType: "Event"
     };
 
     const invokeCommand = new InvokeCommand(invokeParams);

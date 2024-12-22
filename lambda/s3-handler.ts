@@ -1,5 +1,6 @@
 // index.js
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { setTimeout } from 'node:timers/promises';
 
 // S3 Bucket Name
 const bucketName = process.env.S3_BUCKET_NAME;
@@ -17,6 +18,10 @@ exports.LambdaRecursionDetectionS3Handler = async function (
   console.log(JSON.stringify(event, null, 2));
   console.log(JSON.stringify(context, null, 2));
   try {
+
+    // 5sec Timeout
+    await setTimeout(5 * 1000);
+
     // Save JSON Data
     const data = { message: "This is a pen." };
 
