@@ -2,6 +2,10 @@
 
 2023 年 7 月に発表された「[Detecting and stopping recursive loops in AWS Lambda functions](https://aws.amazon.com/blogs/compute/detecting-and-stopping-recursive-loops-in-aws-lambda-functions/)」を検証するための環境を AWS CDK を使って構築します。
 
+2024 年 10 月に[アップデート](https://aws.amazon.com/jp/about-aws/whats-new/2024/10/aws-lambda-detects-stops-recursive-loops-lambda-s3/)があり、S3間のLoopに関しても、検知と停止がされてるようになったので、対応の旨記載しました。
+
+
+
 検証できる構成は、以下になります。
 
 - Amazon SQS With Dead Letter Queue でのループ
@@ -10,8 +14,7 @@
 - Amazon SNS と Amazon SQS を組み合わせたループ
 - Amazon SQS と AWS Lambda を組み合わせたループ
 - Amazon SQS と AWS Lambda を数珠繋ぎにしたループ
-- Amazon S3 でのループ(これはおまけ)
-  - **注意!!!!注意!!!!この構成は検証できますが、今回の検知および停止の対象外なので、手動で Lambda 関数の実行を停止することが必要です。実行の際には、メトリクスやログを必ず監視し、すぐに止めるようにしてください。止め忘れた場合に発生する費用については、一切の責任を負いません**
+- Amazon S3 でのループ(2024.10のアップデートで対応されました。嬉しい。)
 
 ## 必要なもの
 
@@ -128,6 +131,13 @@ $ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.Pythagorea
  response.json
 ```
 
+- Amazon S3 でのループ
+
+```
+$ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonS3LoopFunctionで出力された値} \
+ response.json
+```
+
 #### 確認
 
 該当 Lambda 関数のメトリクスを見ると、16 回で停止していることがわかります。
@@ -136,36 +146,6 @@ Clouwatch Logs を確認すると、実行のログが 16 回出ていると思�
 
 例えば SQS でのループの場合、`Message has been sent to the queue` で検索をかけると、16 つのレコードが出てくるはずです。
 
-**以下実行時は注意！！！！！(実行は自己責任です)**
-
-- Amazon S3 でのループ
-
-**(注意!)この Lambda を実行すると、1 分間に 20 回程度実行されます。すぐにスロットリングさせて止めること!!!**
-
-**実行したらすぐに次のコマンドを実行して、強制的に停止させること!!!**
-
-```
-$ aws lambda invoke --function-name {AwsLambdaRecursionDetectionStack.AmazonS3LoopFunctionで出力された値} \
- response.json
-```
-
-- Lambda 関数の実行を止める
-
-**止めるのを忘れると課金が発生する可能性があります!!!!**
-
-```
-$ aws lambda put-function-concurrency \
- --function-name {AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction} \
- --reserved-concurrent-executions 0
-```
-
-- 再実行できるようにする
-
-```
-$ aws lambda put-function-concurrency \
- --function-name {AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction} \
- --reserved-concurrent-executions 1
-```
 
 ### 後片付け
 
@@ -173,9 +153,6 @@ $ aws lambda put-function-concurrency \
 
 ※S3 のループパターンを実行した場合は、バケットにファイルが残っているので、削除してから上記コマンドを実行してください。
 
-## 免責事項
-
-**Amazon S3 でのループを実行した際に、止め忘れた場合に発生した費用については、一切の責任を負いかねます。**
 
 ## 作者
 

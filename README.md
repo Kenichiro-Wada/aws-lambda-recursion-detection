@@ -2,6 +2,7 @@
 
 An environment will be created using AWS CDK to validate the "[Detecting and stopping recursive loops in AWS Lambda functions](https://aws.amazon.com/blogs/compute/detecting-and-stopping-recursive-loops-in-aws-lambda-functions/)" announced in July 2023.
 
+There was an update in October 2024 [Update](https://aws.amazon.com/about-aws/whats-new/2024/10/aws-lambda-detects-stops-recursive-loops-lambda-s3/), and now it also detects and stops loops between S3, so I have noted the corresponding measures.
 The configurations that can be verified are as follows
 
 - Loop with Amazon SQS With Dead Letter Queue
@@ -10,8 +11,7 @@ The configurations that can be verified are as follows
 - Loop combining Amazon SNS and Amazon SQS
 - Loop combining Amazon SQS and AWS Lambda
 - Loop with Amazon SQS and AWS Lambda
-- Loop with Amazon S3 (this is a bonus)
-  - **Caution !!!! Note !!!! This configuration can be verified, but is outside the scope of this detection and shutdown, so it is necessary to manually stop the execution of the Lambda function. Be sure to monitor metrics and logs during execution and stop it immediately. We are not responsible for any costs incurred if you forget to stop it!**
+- Loop With Amazon S3 (addressed in the October 2024 update. It's great!)
 
 ## Required
 
@@ -129,6 +129,13 @@ $ aws lambda invoke --function-name {Value output to AwsLambdaRecursionDetection
  response.json
 ```
 
+- Looping with Amazon S3
+
+```
+$ aws lambda invoke --function-name {Value output to AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction} \
+ response.json
+```
+
 #### Confirmation
 
 The metrics for the relevant Lambda function show that it stopped 16 times.
@@ -137,46 +144,11 @@ If you check Clouwatch Logs, you will see that the execution is logged 16 times.
 
 For example, for a loop in SQS, if you do a search on `Message has been sent to the queue`, you should get 16 records.
 
-**Please note the following when executing: !!!! (Execution is at your own risk)**
-
-- Looping with Amazon S3
-
-**(Caution!) When this Lambda is executed, it will run about 20 times per minute. Throttling it to stop it immediately!!!!**
-
-**As soon as you run it, run the following command to force it to stop!!!!**
-
-```
-$ aws lambda invoke --function-name {Value output to AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction} \
- response.json
-```
-
-- Stop the execution of the Lambda function
-
-**forgetting to stop may result in charges !!!!**
-
-```
-$ aws lambda put-function-concurrency \
- --function-name {AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction} \
- --reserved-concurrent-executions 0
-```
-
-- Enable re-run
-
-```
-$ aws lambda put-function-concurrency \
- --function-name {AwsLambdaRecursionDetectionStack.AmazonS3LoopFunction} \
- --reserved-concurrent-executions 1
-```
-
 ### Clean up
 
 `$ cdk destroy`
 
 \*If you have executed the S3 loop pattern, the file remains in the bucket, so delete it before executing the above command.
-
-## Disclaimers
-
-**We are not responsible for any costs incurred if you forget to stop the loop in Amazon S3 when you run it.**
 
 ## Author
 
