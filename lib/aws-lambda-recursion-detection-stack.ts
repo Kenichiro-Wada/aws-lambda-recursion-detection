@@ -170,7 +170,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
       this,
       "LoopSqsWithDlqFunction",
       {
-        runtime: lambda.Runtime.NODEJS_LATEST,
+        runtime: lambda.Runtime.NODEJS_22_X,
         entry: "lambda/sqs-handler.ts",
         handler: "LambdaRecursionDetectionSqsHandler",
         timeout: cdk.Duration.seconds(30),
@@ -192,7 +192,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
       this,
       "LoopSqsFunction",
       {
-        runtime: lambda.Runtime.NODEJS_LATEST,
+        runtime: lambda.Runtime.NODEJS_22_X,
         entry: "lambda/sqs-handler.ts",
         handler: "LambdaRecursionDetectionSqsHandler",
         timeout: cdk.Duration.seconds(30),
@@ -212,7 +212,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
       this,
       "LoopSnsFunction",
       {
-        runtime: lambda.Runtime.NODEJS_LATEST,
+        runtime: lambda.Runtime.NODEJS_22_X,
         entry: "lambda/sns-handler.ts",
         handler: "LambdaRecursionDetectionSnsHandler",
         timeout: cdk.Duration.seconds(30),
@@ -232,7 +232,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
       this,
       "LoopSqsAndSnsFunction",
       {
-        runtime: lambda.Runtime.NODEJS_LATEST,
+        runtime: lambda.Runtime.NODEJS_22_X,
         entry: "lambda/sns-sqs-handler.ts",
         handler: "LambdaRecursionDetectionSnsSqsHandler",
         timeout: cdk.Duration.seconds(30),
@@ -254,7 +254,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
       this,
       "LoopSqsAndLambdaFunction",
       {
-        runtime: lambda.Runtime.NODEJS_LATEST,
+        runtime: lambda.Runtime.NODEJS_22_X,
         entry: "lambda/sqs-lambda-handler.ts",
         handler: "LambdaRecursionDetectionSqsLambdaHandler",
         timeout: cdk.Duration.seconds(30),
@@ -272,7 +272,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
       this,
       "LoopLambdaFunction",
       {
-        runtime: lambda.Runtime.NODEJS_LATEST,
+        runtime: lambda.Runtime.NODEJS_22_X,
         entry: "lambda/lambda-handler.ts",
         handler: "LambdaRecursionDetectionLambdaHandler",
         timeout: cdk.Duration.seconds(30),
@@ -295,7 +295,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
       this,
       "LoopPythagoreanSwitch1stFunction",
       {
-        runtime: lambda.Runtime.NODEJS_LATEST,
+        runtime: lambda.Runtime.NODEJS_22_X,
         entry: "lambda/sqs-handler.ts",
         handler: "LambdaRecursionDetectionSqsHandler",
         timeout: cdk.Duration.seconds(30),
@@ -318,7 +318,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
       this,
       "LoopPythagoreanSwitch2ndFunction",
       {
-        runtime: lambda.Runtime.NODEJS_LATEST,
+        runtime: lambda.Runtime.NODEJS_22_X,
         entry: "lambda/sqs-handler.ts",
         handler: "LambdaRecursionDetectionSqsHandler",
         timeout: cdk.Duration.seconds(30),
@@ -341,7 +341,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
       this,
       "LoopPythagoreanSwitch3rdFunction",
       {
-        runtime: lambda.Runtime.NODEJS_LATEST,
+        runtime: lambda.Runtime.NODEJS_22_X,
         entry: "lambda/sqs-handler.ts",
         handler: "LambdaRecursionDetectionSqsHandler",
         timeout: cdk.Duration.seconds(30),
@@ -366,7 +366,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
       this,
       "LoopS3Function",
       {
-        runtime: lambda.Runtime.NODEJS_LATEST,
+        runtime: lambda.Runtime.NODEJS_22_X,
         entry: "lambda/s3-handler.ts",
         handler: "LambdaRecursionDetectionS3Handler",
         timeout: cdk.Duration.seconds(30),
@@ -389,7 +389,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
       this,
       "SnsPublishFunction",
       {
-        runtime: lambda.Runtime.NODEJS_LATEST,
+        runtime: lambda.Runtime.NODEJS_22_X,
         entry: "lambda/sns-publish-handler.ts",
         handler: "SnsPublishHandler",
         timeout: cdk.Duration.seconds(30),
