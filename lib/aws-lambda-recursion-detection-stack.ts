@@ -361,7 +361,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
       new SqsEventSource(lambdaLoopPythagoreanSwitch2ndQueue, {})
     );
 
-    // Lambda Function For S3 Save JSON. (Not Detection)
+    // Lambda Function For S3 Save JSON.
     const loopS3Function = new lambdaNodeJs.NodejsFunction(
       this,
       "LoopS3Function",
@@ -376,6 +376,7 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
           S3_BUCKET_NAME: lambdaLoopBucket.bucketName,
           REGION: region,
         },
+        deadLetterQueue: lambdaLoopQueueWithDlq,
       }
     );
     lambdaLoopBucket.grantReadWrite(loopS3Function);
