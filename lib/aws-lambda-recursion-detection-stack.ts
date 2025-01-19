@@ -376,9 +376,10 @@ export class AwsLambdaRecursionDetectionStack extends cdk.Stack {
           S3_BUCKET_NAME: lambdaLoopBucket.bucketName,
           REGION: region,
         },
-        deadLetterQueue: lambdaLoopQueueWithDlq,
+        deadLetterQueue: lambdaLoopDeadLetterQueue,
       }
     );
+    lambdaLoopDeadLetterQueue.grantSendMessages(loopS3Function);
     lambdaLoopBucket.grantReadWrite(loopS3Function);
     loopS3Function.addEventSource(
       new S3EventSource(lambdaLoopBucket, {
